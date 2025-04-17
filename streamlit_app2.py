@@ -160,7 +160,7 @@ if not st.session_state.show_chatroom:
                 messages.append({"role": "user", "content": query})
 
                 reply = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
+                    model="gpt-4-turbo",
                     messages=messages
                 ).choices[0].message.content
 
