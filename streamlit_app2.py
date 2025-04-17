@@ -110,10 +110,12 @@ if not st.session_state.show_chatroom:
     # 初次欢迎语
     if len(st.session_state.chat_history) == 0:
         welcome = (
-            "Welcome：） Feeling lost in the VVZ? That’s okay — you’re not alone.\n\n"
-            "I’m here to help you make sense of course descriptions.\n\n"
-            "You don't have to use English - feel free to ask in the language you're most comfortable with. \n\n"
-            "This website is run by me personally, and the AI responses cost real tokens — so please ask with care and purpose. Let’s make this space meaningful."
+            "Welcome to ghost-syllabus.\n\n"
+            "Feeling lost in the VVZ? That’s okay — many of us have read course descriptions that feel like riddles, theory clouds, or ghosts of meaning.\n\n"
+            "I’m here to help you decode them — not just simplify, but understand what’s hidden beneath the language.\n\n"
+            "You can ask in any language you’re comfortable with.\n\n"
+            "This project is personal and experimental. AI responses cost real tokens, so please ask with care and curiosity.\n"
+            "Let’s make this a space for understanding, reflection, and resistance."
         )
         st.session_state.chat_history.append({"role": "assistant", "content": welcome})
 
