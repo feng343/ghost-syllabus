@@ -6,7 +6,8 @@ from tqdm import tqdm
 from openai import OpenAI
 
 # 初始化 OpenAI 客户端（记得填入你的 API Key）
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+import os
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # 读取 CSV 文件（用逗号分隔）
 df = pd.read_csv("ss2025.csv")
