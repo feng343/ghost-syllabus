@@ -110,19 +110,10 @@ if not st.session_state.show_chatroom:
     # 初次欢迎语
     if len(st.session_state.chat_history) == 0:
         welcome = (
-            "👋 Hello! You’re probably feeling a bit lost — I totally get it. "
-            "Course descriptions can be confusing, and planning everything is often overwhelming.\n\n"
-            "That's why I was built.\n\n"
-            "Here on the **left**, I can help you understand tricky course descriptions and suggest options based on your needs.\n"
-            "On the **right**, you’ll find an **anonymous chat room** where students can freely share their thoughts and experiences.\n\n"
-            "Feel free to ask your questions in your **native language** — I understand English, German, Chinese, and more.\n\n"
-            "You're not choosing alone.\n\n"
-            "👇 Ask me anything about the courses.\n\n"
-            "💡 For example:\n"
-            "- *I'm looking for a theory-heavy course taught in German.*\n"
-            "- *Are there any practice-oriented art courses in July?*\n"
-            "- *I prefer seminar-style courses on society or media.*\n"
-            "- *Which courses are open for diploma students?*"
+            "Welcome：） Feeling lost in the VVZ? That’s okay — you’re not alone.\n\n"
+            "I’m here to help you make sense of course descriptions and explore options that actually fit you.\n\n"
+            "You don't have to use English - feel free to ask in the language you're most comfortable with. \n\n"
+            "This website is run by me personally, and the AI responses cost real tokens — so please ask with care and purpose. Let’s make this space meaningful."
         )
         st.session_state.chat_history.append({"role": "assistant", "content": welcome})
 
@@ -152,10 +143,22 @@ if not st.session_state.show_chatroom:
                 context = "\n".join([texts[i] for i in I[0]])
 
                 reply = client.chat.completions.create(
-                    model="gpt-4o",
+                    model="gpt-3.5-turbo",
                     messages=[
-                        {"role": "system", "content": "You are a helpful academic course assistant."},
-                        {"role": "user", "content": f"{query}\n\nHere are some course descriptions:\n{context}"}
+                        {
+                            "role": "system",
+                            "content": (
+                                "You are a helpful academic course assistant.\n"
+                                "If the user hasn't yet provided their major, semester, preferred learning style, availability, or language preference, "
+                                "start by asking those questions in a conversational way.\n"
+                                "You should also detect the user's language from their message and respond in that language if possible.\n"
+                                "Be friendly and concise."
+                            )
+                        },
+                        {
+                            "role": "user",
+                            "content": f"{query}\n\nHere are some course descriptions:\n{context}"
+                        }
                     ]
                 ).choices[0].message.content
 
