@@ -150,10 +150,9 @@ if not st.session_state.show_chatroom:
                     "especially in the context of art education.\n\n"
                     "If a course description is vague, theoretical, or filled with jargon, translate it into clearer, more relatable language. "
                     "Avoid simply simplifying—expose the gaps or implications in the original language where appropriate.\n\n"
-                    "Always respond in the same language the user uses.\n"
-                    "Always include the full official course title if you mention a course.\n"
+                    "Always include the full official course title in its original language (usually German or English) without translating it.\n"
                     "When possible, explain what the course is really about, what kind of experience it may offer, and who it might be for.\n\n"
-                    "Your goal is not just to inform, but also to decode, translate, and open up space for critical engagement."
+                    "Respond in the same language the user uses (English, German, or Chinese), but keep course titles in their official form."
                 )
 
                 messages = [{"role": "system", "content": system_prompt}]
