@@ -2,11 +2,12 @@ import pandas as pd
 import numpy as np
 import faiss
 import pickle
+import os
 from tqdm import tqdm
 from openai import OpenAI
 
+
 # 初始化 OpenAI 客户端（记得填入你的 API Key）
-import os
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # 读取 CSV 文件（用逗号分隔）
