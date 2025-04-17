@@ -4,6 +4,8 @@ import numpy as np
 import faiss
 import pickle
 from openai import OpenAI
+import subprocess
+import os
 
 # 页面设置
 st.set_page_config(page_title="Ghost Syllabus", layout="wide")
@@ -71,7 +73,7 @@ def load_data():
             )
             st.success("✅ 向量库生成成功")
             st.code(result.stdout)
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             st.error("❌ 构建向量库失败，请检查 build_index.py 中是否报错。")
             st.code(e.stderr)
             raise e
