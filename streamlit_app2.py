@@ -75,10 +75,10 @@ def load_data():
             st.code(result.stdout)
         except Exception as e:
             st.error("❌ 构建向量库失败，请检查 build_index.py 中是否报错。")
-            if hasattr(e, "stderr") and e.stderr:
-                st.code(e.stderr)
-            else:
-                st.code(str(e))
+            st.markdown("**STDOUT:**")
+            st.code(e.stdout if hasattr(e, "stdout") else "无输出")
+            st.markdown("**STDERR:**")
+            st.code(e.stderr if hasattr(e, "stderr") else str(e))
             raise e
 
     index = faiss.read_index("index.faiss")
