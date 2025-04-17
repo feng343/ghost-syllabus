@@ -111,7 +111,7 @@ if not st.session_state.show_chatroom:
     if len(st.session_state.chat_history) == 0:
         welcome = (
             "Welcome：） Feeling lost in the VVZ? That’s okay — you’re not alone.\n\n"
-            "I’m here to help you make sense of course descriptions and explore options that actually fit you.\n\n"
+            "I’m here to help you make sense of course descriptions.\n\n"
             "You don't have to use English - feel free to ask in the language you're most comfortable with. \n\n"
             "This website is run by me personally, and the AI responses cost real tokens — so please ask with care and purpose. Let’s make this space meaningful."
         )
