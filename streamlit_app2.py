@@ -147,7 +147,9 @@ if not st.session_state.show_chatroom:
                     "and sometimes I will tell you the user’s background (e.g. major, semester, language preference).\n\n"
                     "Only ask for missing info ONCE. If the user already said their major or semester, do not ask again.\n"
                     "Always reply in the same language the user uses.\n"
-                    "Be short, clear, and helpful."
+                    "Always mention the **full course names** in your reply, not just descriptions.\n"
+                    "If you reference any course, make sure to include its **official course title** clearly.\n"
+                    "When possible, summarize what each course is about, and suggest reasons why it may or may not fit the user."
                 )
 
                 messages = [{"role": "system", "content": system_prompt}]
