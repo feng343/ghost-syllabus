@@ -142,24 +142,21 @@ if not st.session_state.show_chatroom:
                 D, I = index.search(vec, 3)
                 context = "\n".join([texts[i] for i in I[0]])
 
+                system_prompt = (
+                    "You are an academic course assistant. I will give you the latest user message, "
+                    "and sometimes I will tell you the user’s background (e.g. major, semester, language preference).\n\n"
+                    "Only ask for missing info ONCE. If the user already said their major or semester, do not ask again.\n"
+                    "Always reply in the same language the user uses.\n"
+                    "Be short, clear, and helpful."
+                )
+
+                messages = [{"role": "system", "content": system_prompt}]
+                messages.extend(st.session_state.chat_history[-4:])
+                messages.append({"role": "user", "content": query})
+
                 reply = client.chat.completions.create(
                     model="gpt-3.5-turbo",
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": (
-                                "You are a helpful academic course assistant.\n"
-                                "If the user hasn't yet provided their major, semester, preferred learning style, availability, or language preference, "
-                                "start by asking those questions in a conversational way.\n"
-                                "You should also detect the user's language from their message and respond in that language if possible.\n"
-                                "Be friendly and concise."
-                            )
-                        },
-                        {
-                            "role": "user",
-                            "content": f"{query}\n\nHere are some course descriptions:\n{context}"
-                        }
-                    ]
+                    messages=messages
                 ).choices[0].message.content
 
                 import time
