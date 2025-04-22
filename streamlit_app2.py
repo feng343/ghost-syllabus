@@ -153,10 +153,10 @@ if not st.session_state.show_chatroom:
                     thinking.markdown("⚠️ No matching course description found. Please check the spelling.")
                 else:
                     # Detect user language
-                    import langcodes
+                    from langdetect import detect
                     try:
-                        lang = langcodes.best_match(query, ['en', 'de', 'zh', 'fr', 'it', 'es', 'ru', 'ja', 'ko', 'ar', 'pt', 'nl', 'pl', 'tr', 'sv', 'fi', 'no', 'da', 'cs', 'el', 'hu', 'ro', 'sk', 'bg', 'uk', 'he', 'hi', 'id', 'th', 'vi', 'ms', 'ca', 'hr', 'lt', 'sl', 'et', 'lv'])
-                    except Exception:
+                        lang = detect(query)
+                    except:
                         lang = "en"
                     # User prompt using language code
                     user_prompt = f"Please respond in the same language I am using ({lang}). Here is the course description:\n\n{course_intro}\n\nPlease help me analyze what this course is likely about and how it might be taught."
