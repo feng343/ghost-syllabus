@@ -152,8 +152,16 @@ if not st.session_state.show_chatroom:
                 if not course_intro:
                     thinking.markdown("⚠️ No matching course description found. Please check the spelling.")
                 else:
+                    # Detect user language
+                    import langcodes
+                    try:
+                        lang = langcodes.best_match(query, ['en', 'de', 'zh', 'fr', 'it', 'es', 'ru', 'ja', 'ko', 'ar', 'pt', 'nl', 'pl', 'tr', 'sv', 'fi', 'no', 'da', 'cs', 'el', 'hu', 'ro', 'sk', 'bg', 'uk', 'he', 'hi', 'id', 'th', 'vi', 'ms', 'ca', 'hr', 'lt', 'sl', 'et', 'lv'])
+                    except Exception:
+                        lang = "en"
+                    # User prompt using language code
+                    user_prompt = f"Please respond in the same language I am using ({lang}). Here is the course description:\n\n{course_intro}\n\nPlease help me analyze what this course is likely about and how it might be taught."
                     messages = [{"role": "system", "content": system_prompt}]
-                    messages.append({"role": "user", "content": f"Here is the course description:\n\n{course_intro}\n\nPlease help me analyze what this course is likely about and how it might be taught."})
+                    messages.append({"role": "user", "content": user_prompt})
                     reply = client.chat.completions.create(
                         model="gpt-4-turbo",
                         messages=messages
