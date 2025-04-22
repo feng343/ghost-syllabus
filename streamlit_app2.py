@@ -137,8 +137,10 @@ if not st.session_state.show_chatroom:
 
             try:
                 course_intro = None
-                for title, desc in texts.items():
-                    if title.lower() in query.lower():
+                for title, lecturer, major, desc in texts:
+                    if (title and title.lower() in query.lower()) or \
+                       (lecturer and lecturer.lower() in query.lower()) or \
+                       (major and major.lower() in query.lower()):
                         course_intro = desc
                         break
 
