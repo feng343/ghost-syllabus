@@ -23,9 +23,10 @@ Description: {row['DESCRIPTION']}
 Contact: {row['CONTACT']}"""
 
 # 生成每门课的文本描述列表，结构为 (title, lecturer, major, text)
-texts = [(row['TITLE'], row['LECTURER'], row['MAJOR'], row_to_text(row)) for _, row in df.iterrows()]
-
-with open("course_texts.pkl", "wb") as f:
-    pickle.dump(texts, f)
-
-print("✅ 成功生成课程文本数据，共处理课程数：", len(texts))
+if os.path.exists("course_texts.pkl"):
+    print("📦 course_texts.pkl 已存在，跳过生成。")
+else:
+    texts = [(row['TITLE'], row['LECTURER'], row['MAJOR'], row_to_text(row)) for _, row in df.iterrows()]
+    with open("course_texts.pkl", "wb") as f:
+        pickle.dump(texts, f)
+    print("✅ 成功生成课程文本数据，共处理课程数：", len(texts))

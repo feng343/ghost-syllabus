@@ -62,31 +62,11 @@ client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 # 加载嵌入数据
 @st.cache_resource
 def load_data():
-    if not os.path.exists("index.faiss") or not os.path.exists("course_texts.pkl"):
-        st.warning("⚙️ 向量文件不存在，正在生成 index.faiss ...")
-        try:
-            result = subprocess.run(
-                ["python3", "build_index.py"],
-                check=True,
-                capture_output=True,
-                text=True
-            )
-            st.success("✅ 向量库生成成功")
-            st.code(result.stdout)
-        except Exception as e:
-            st.error("❌ 构建向量库失败，请检查 build_index.py 中是否报错。")
-            st.markdown("**STDOUT:**")
-            st.code(e.stdout if hasattr(e, "stdout") else "无输出")
-            st.markdown("**STDERR:**")
-            st.code(e.stderr if hasattr(e, "stderr") else str(e))
-            raise e
-
-    index = faiss.read_index("index.faiss")
     with open("course_texts.pkl", "rb") as f:
         texts = pickle.load(f)
-    return index, texts
+    return texts
 
-index, texts = load_data()
+texts = load_data()
 
 # 聊天记录初始化
 if "chat_history" not in st.session_state:
