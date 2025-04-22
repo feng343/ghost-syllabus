@@ -116,16 +116,25 @@ if not st.session_state.show_chatroom:
             thinking.markdown("🧠 Thinking...")
 
             try:
+                import re
+                def normalize(text):
+                    try:
+                        return re.sub(r'[^a-z0-9]+', '', str(text).lower())
+                    except:
+                        return ''
                 course_intro = None
-                query_lower = query.lower()
+                norm_query = normalize(query)
                 for item in texts:
                     if len(item) == 4:
                         title, lecturer, major, desc = item
                     else:
                         continue  # 或 raise ValueError("Invalid course text format.")
-                    if (title and (title.lower() in query_lower or query_lower in title.lower())) or \
-                       (lecturer and (lecturer.lower() in query_lower or query_lower in lecturer.lower())) or \
-                       (major and (major.lower() in query_lower or query_lower in major.lower())):
+                    norm_title = normalize(title)
+                    norm_lecturer = normalize(lecturer)
+                    norm_major = normalize(major)
+                    if (norm_query in norm_title or norm_title in norm_query) or \
+                       (norm_query in norm_lecturer or norm_lecturer in norm_query) or \
+                       (norm_query in norm_major or norm_major in norm_query):
                         course_intro = desc
                         break
 

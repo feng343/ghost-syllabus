@@ -1,6 +1,4 @@
 streamlit
 openai
-faiss-cpu
 numpy
 pandas
-tqdm
