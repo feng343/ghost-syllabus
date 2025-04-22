@@ -146,14 +146,14 @@ if not st.session_state.show_chatroom:
                     "Avoid simply simplifying—expose the gaps or implications in the original language where appropriate.\n\n"
                     "Always include the full official course title in its original language (usually German or English) without translating it.\n"
                     "When possible, explain what the course is really about, what kind of experience it may offer, and who it might be for.\n\n"
-                    "Respond in the same language the user uses (English, German, or Chinese), but keep course titles in their official form."
+                    "Respond strictly in the same language the user used in their latest message. Do not switch languages unless explicitly asked to. Always preserve course titles in their original form (usually German or English)."
                 )
 
                 if not course_intro:
-                    thinking.markdown("⚠️ 找不到与课程名称匹配的介绍，请确认拼写是否正确。")
+                    thinking.markdown("⚠️ No matching course description found. Please check the spelling.")
                 else:
                     messages = [{"role": "system", "content": system_prompt}]
-                    messages.append({"role": "user", "content": f"课程介绍如下，请帮我分析这门课可能会讲什么、怎么教：\n\n{course_intro}"})
+                    messages.append({"role": "user", "content": f"Here is the course description:\n\n{course_intro}\n\nPlease help me analyze what this course is likely about and how it might be taught."})
                     reply = client.chat.completions.create(
                         model="gpt-4-turbo",
                         messages=messages
