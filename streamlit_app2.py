@@ -137,7 +137,11 @@ if not st.session_state.show_chatroom:
 
             try:
                 course_intro = None
-                for title, lecturer, major, desc in texts:
+                for item in texts:
+                    if len(item) == 4:
+                        title, lecturer, major, desc = item
+                    else:
+                        continue  # 或 raise ValueError("Invalid course text format.")
                     if (title and title.lower() in query.lower()) or \
                        (lecturer and lecturer.lower() in query.lower()) or \
                        (major and major.lower() in query.lower()):
