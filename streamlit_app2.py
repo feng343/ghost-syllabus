@@ -136,13 +136,11 @@ if not st.session_state.show_chatroom:
             thinking.markdown("🧠 Thinking...")
 
             try:
-                response = client.embeddings.create(
-                    model="text-embedding-3-small",
-                    input=query
-                )
-                vec = np.array(response.data[0].embedding).astype("float32").reshape(1, -1)
-                D, I = index.search(vec, 3)
-                context = "\n".join([texts[i] for i in I[0]])
+                course_intro = None
+                for title, desc in texts.items():
+                    if title.lower() in query.lower():
+                        course_intro = desc
+                        break
 
                 system_prompt = (
                     "You are an experimental language assistant in the ghost-syllabus project. "
@@ -155,21 +153,22 @@ if not st.session_state.show_chatroom:
                     "Respond in the same language the user uses (English, German, or Chinese), but keep course titles in their official form."
                 )
 
-                messages = [{"role": "system", "content": system_prompt}]
-                messages.extend(st.session_state.chat_history[-4:])
-                messages.append({"role": "user", "content": query})
+                if not course_intro:
+                    thinking.markdown("⚠️ 找不到与课程名称匹配的介绍，请确认拼写是否正确。")
+                else:
+                    messages = [{"role": "system", "content": system_prompt}]
+                    messages.append({"role": "user", "content": f"课程介绍如下，请帮我分析这门课可能会讲什么、怎么教：\n\n{course_intro}"})
+                    reply = client.chat.completions.create(
+                        model="gpt-4-turbo",
+                        messages=messages
+                    ).choices[0].message.content
 
-                reply = client.chat.completions.create(
-                    model="gpt-4-turbo",
-                    messages=messages
-                ).choices[0].message.content
+                    import time
+                    for i in range(1, len(reply) + 1):
+                        thinking.markdown(reply[:i])
+                        time.sleep(0.01)
 
-                import time
-                for i in range(1, len(reply) + 1):
-                    thinking.markdown(reply[:i])
-                    time.sleep(0.01)
-
-                st.session_state.chat_history.append({"role": "assistant", "content": reply})
+                    st.session_state.chat_history.append({"role": "assistant", "content": reply})
             except Exception as e:
                 thinking.markdown(f"⚠️ Something went wrong: {e}")
 

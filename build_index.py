@@ -25,12 +25,12 @@ Credit: {row['CREDIT']}
 Description: {row['DESCRIPTION']}
 Contact: {row['CONTACT']}"""
 
-# 生成每门课的文本描述列表
-texts = df.apply(row_to_text, axis=1).tolist()
+# 生成每门课的文本描述列表，结构为 (title, lecturer, major, text)
+texts = [(row['TITLE'], row['LECTURER'], row['MAJOR'], row_to_text(row)) for _, row in df.iterrows()]
 
 # 获取每条文本的 embedding
 embeddings = []
-for text in tqdm(texts, desc="Generating embeddings"):
+for _, _, _, text in tqdm(texts, desc="Generating embeddings"):
     response = client.embeddings.create(
         model="text-embedding-3-small",
         input=text
