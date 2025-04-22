@@ -137,14 +137,15 @@ if not st.session_state.show_chatroom:
 
             try:
                 course_intro = None
+                query_lower = query.lower()
                 for item in texts:
                     if len(item) == 4:
                         title, lecturer, major, desc = item
                     else:
                         continue  # 或 raise ValueError("Invalid course text format.")
-                    if (title and title.lower() in query.lower()) or \
-                       (lecturer and lecturer.lower() in query.lower()) or \
-                       (major and major.lower() in query.lower()):
+                    if (title and (title.lower() in query_lower or query_lower in title.lower())) or \
+                       (lecturer and (lecturer.lower() in query_lower or query_lower in lecturer.lower())) or \
+                       (major and (major.lower() in query_lower or query_lower in major.lower())):
                         course_intro = desc
                         break
 
